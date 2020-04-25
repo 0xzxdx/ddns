@@ -64,7 +64,7 @@ else:
 
 # Check if the IP needs to be updated
 if CACHED_IP != PUBLIC_IP:
-    req = request.Request(url=GOD_ADDY_API_URL, headers=HEADERS)
+    req = request.Request(GOD_ADDY_API_URL, headers=HEADERS)
     try:
         with request.urlopen(req) as response:
             data = json.loads(response.read().decode('utf-8'))
@@ -77,7 +77,7 @@ if CACHED_IP != PUBLIC_IP:
     else:
         print("changed! Updating '{}.{}', {} to {}".format(NAME, DOMAIN, NAME_BIND_IP, PUBLIC_IP))
         data = json.dumps([{"data": PUBLIC_IP, "name": NAME, "ttl": TTL, "type": TYPE}]).encode('utf-8')
-        req = request.Request(url=GOD_ADDY_API_URL, data=data, headers=HEADERS, method='PUT')
+        req = request.Request(GOD_ADDY_API_URL, data=data, headers=HEADERS, method='PUT')
         with request.urlopen(req) as response:
             print("Success!" if not response.read().decode('utf-8') else "Success!")
             open('/tmp/current_ip', mode="w", encoding="utf-8").write(PUBLIC_IP)
